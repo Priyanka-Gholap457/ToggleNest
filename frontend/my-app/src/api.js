@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://togglenest-6k9t.onrender.com/api",
+  baseURL: "https://togglenest-ga5e.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
