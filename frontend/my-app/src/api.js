@@ -23,15 +23,11 @@ api.interceptors.request.use(
 );
 
 export const generateAITasks = async (description) => {
-  const response = await fetch("https://togglenest-ga5e.onrender.com/api/ai/generate-tasks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ description })
+  const response = await api.post("/ai/generate-tasks", {
+    description
   });
 
-  return response.json();
+  return response.data;
 };
 
 
