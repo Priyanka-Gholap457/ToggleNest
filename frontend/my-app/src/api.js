@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://togglenest-ga5e.onrender.com",
+  baseURL: "https://togglenest-ga5e.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,7 +23,7 @@ api.interceptors.request.use(
 );
 
 export const generateAITasks = async (description) => {
-  const response = await fetch("/api/ai/generate-tasks", {
+  const response = await fetch("https://togglenest-ga5e.onrender.com/api/ai/generate-tasks", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

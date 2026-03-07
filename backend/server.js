@@ -18,19 +18,23 @@ const app = express();
 
 /* ---------- MIDDLEWARE ---------- */
 app.use(cors({
-  origin: (origin, callback) => {
-    callback(null, true); // allow ALL origins
-  },
-  credentials: true,
+  origin: [
+    "http://localhost:5173",
+    "https://togglenest123.netlify.app"
+  ],
+  credentials: true
 }));
 app.use(express.json());
+
+/* ---------- DB ---------- */
+connectDB();
 
 /* ---------- ROUTES ---------- */
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/activities", activityRoutes);
-app.use("/users", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/ai", aiRoutes);
 
 /* ---------- TEST ---------- */
@@ -38,8 +42,7 @@ app.get("/", (req, res) => {
   res.send("ToggleNest Backend is running 🚀");
 });
 
-/* ---------- DB ---------- */
-connectDB();
+
 
 /* ---------- CREATE ONE SERVER ---------- */
 const server = http.createServer(app);
