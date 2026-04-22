@@ -37,17 +37,13 @@ const ProjectForm = () => {
   };
 
   const handleGenerateTasks = async () => {
-    const res = await fetch("http://localhost:5000/api/ai/generate-tasks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ description })
-  });
-
-  const data = await res.json();
-
-  setAiTasks(data.tasks);
+    try {
+      const res = await api.post("/ai/generate-tasks", { description });
+      setAiTasks(res.data.tasks);
+    } catch (error) {
+      console.log("AI task generation failed", error);
+      alert(error.response?.data?.message || "AI task generation failed");
+    }
   };
 
   return (

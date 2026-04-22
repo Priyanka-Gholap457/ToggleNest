@@ -35,45 +35,28 @@ const TaskModal = ({ onClose, onAdd }) => {
   };
 
   const suggestPriority = async () => {
-
     if (!title.trim()) return;
 
     try {
-
-      const res = await fetch("http://localhost:5000/api/ai/suggest-priority", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ task: title })
-      });
-
-      const data = await res.json();
-
-      setPriority(data.priority);
-
+      const res = await api.post("/ai/suggest-priority", { task: title });
+      setPriority(res.data.priority);
     } catch (error) {
-      console.log("AI priority suggestion failed");
+      console.log("AI priority suggestion failed", error);
+      alert(error.response?.data?.message || "AI priority suggestion failed");
     }
   };
 
   const generateDescription = async () => {
+    if (!title.trim()) return;
 
-  if (!title.trim()) return;
-  try {
-    const res = await fetch("http://localhost:5000/api/ai/generate-description", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ title })
-    });
-    const data = await res.json();
-    setDescription(data.description);
-  } catch (error) {
-    console.log("AI description generation failed");
-  }
-};
+    try {
+      const res = await api.post("/ai/generate-description", { title });
+      setDescription(res.data.description);
+    } catch (error) {
+      console.log("AI description generation failed", error);
+      alert(error.response?.data?.message || "AI description generation failed");
+    }
+  };
 
   // 🔹 Auto AI priority detection while typing
   useEffect(() => {

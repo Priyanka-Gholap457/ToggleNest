@@ -23,10 +23,7 @@ api.interceptors.request.use(
 );
 
 export const generateAITasks = async (description) => {
-  const response = await api.post("/ai/generate-tasks", {
-    description
-  });
-
+  const response = await api.post("/ai/generate-tasks", { description });
   return response.data;
 };
 
