@@ -8,7 +8,7 @@ import Notification from "../models/Notification.js";
 
 export const createTask = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, priority } = req.body;
     const projectId = req.params.projectId;
 
     if (!title) {
@@ -21,6 +21,7 @@ export const createTask = async (req, res) => {
     const task = await Task.create({
       title,
       description,
+      priority,
       project: projectId,
       createdBy: req.user.id,
       order,

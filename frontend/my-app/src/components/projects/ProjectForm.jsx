@@ -25,6 +25,7 @@ const ProjectForm = () => {
       await api.post("/projects", {
         name,
         description,
+        aiTasks
       });
 
       // after create → go to project list
@@ -109,7 +110,7 @@ const ProjectForm = () => {
           <h3 className="font-semibold mb-2">AI Suggested Tasks</h3>
 
           {aiTasks.map((task, index) => (
-          <p key={index}>• {task}</p>
+            <p key={index}>• {task.title || task} <span className="text-xs font-bold text-purple-600 bg-purple-100 px-2 py-1 rounded ml-2">{task.priority || 'Medium'}</span></p>
           ))}
         </div>
         )} 

@@ -12,10 +12,11 @@ export const generateTasks = async (req, res) => {
 
     const completion = await client.chat.completions.create({
       model: "llama-3.1-8b-instant",
+      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
-          content: "You are a project manager. Break projects into clear tasks."
+          content: "You are a project manager. Break projects into clear tasks. Return exactly 5 tasks. Output strictly valid JSON in this format: { \"tasks\": [{ \"title\": \"Task title\", \"priority\": \"High\" }] }. Priority must be High, Medium, or Low."
         },
         {
           role: "user",
@@ -25,11 +26,9 @@ export const generateTasks = async (req, res) => {
     });
 
     const aiText = completion.choices[0].message.content;
+    const parsed = JSON.parse(aiText);
+    const tasks = parsed.tasks || [];
 
-    const tasks = aiText
-    .split("\n")
-    .filter(line => line.trim() !== "")
-    .slice(0, 5);
     res.json({ tasks });
 
   } catch (error) {
