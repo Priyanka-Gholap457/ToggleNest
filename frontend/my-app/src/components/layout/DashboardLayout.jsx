@@ -16,14 +16,10 @@ const DashboardLayout = () => {
     setIsSidebarOpen(false);
   };
 
-  // ✅ Add this function
   const handleDeleteAccount = async () => {
     if (window.confirm("Are you sure you want to delete your account? This cannot be undone.")) {
       try {
-        await axios.delete("http://localhost:5000/users/delete", {
-  headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-});
-
+        await axios.delete("/users/delete");
 
         alert("Account deleted successfully.");
         logout();
@@ -83,27 +79,7 @@ const DashboardLayout = () => {
           {/* ✅ Attach onClick handler */}
           
 <button
-  onClick={async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete your account? This action cannot be undone."
-    );
-    if (!confirmed) return;
-
-    try {
-      await axios.delete("http://localhost:5000/users/delete", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-
-      // clear auth state
-      logout();
-
-      alert("Your account has been deleted successfully.");
-      navigate("/"); // redirect to home/login page
-    } catch (error) {
-      console.error("Failed to delete account:", error);
-      alert("Failed to delete account. Please try again.");
-    }
-  }}
+  onClick={handleDeleteAccount}
   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg
     bg-red-50 text-red-700 font-medium hover:bg-red-100 transition-all cursor-pointer"
 >
